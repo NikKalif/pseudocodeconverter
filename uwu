@@ -1,5 +1,8 @@
 import os
 linearray = []
+pseudocommand = ['IF','THEN','ELSE','ENDCASE','CASE OF','OTHERWISE','ENDCASE','REPEAT','UNTIL','FOR','TO','NEXT''DECLARE','CONSTANT','PROCEDURE','ENDPROCEDURE','CALL','FUNCTION','ENDFUNCTION','OPENFILE','READFILE','CLOSEFILE','INPUT','OUTPUT','PRINT']
+conditionalcounter = 0
+splitlinearray = []
 
 def lineprint():
     file = input("What file would you like to convert? Include .py!")
@@ -20,14 +23,13 @@ def lineprint():
 lineprint()
 
 def convertelif():
-    pseudocommand = ['IF','THEN','ELSE','ENDCASE','CASE OF','OTHERWISE','ENDCASE','REPEAT','UNTIL','FOR','TO','NEXT''DECLARE','CONSTANT','PROCEDURE','ENDPROCEDURE','CALL','FUNCTION','ENDFUNCTION','OPENFILE','READFILE','CLOSEFILE','INPUT','OUTPUT','PRINT']
     elifcounter = 0
     for i in linearray:
         elifcounter += 1
+        conditionalcounter += 1
         if "elif" in i:
             print("elif found!")
             print("elif in line", elifcounter)
-            print("Required change:", pseudocommand[4])
+            print("Conditional Change")
 
 convertelif()
-
