@@ -1,0 +1,21 @@
+# Splitline in Identifier going to either ConvertAdditional, ConvertAssignment, ConvertConditional
+
+splitline <- identifier
+If splitline to convertadditional
+  Then convertaddition return converted
+     confirmadditional to convertadditional
+        break
+else:
+  splitline to convertassignment
+  Then convertassignment return converted
+     confirmassignment to convertassignment
+        break
+else:
+  splitline to convertconditional
+  Then convertconditional return conterted
+     confirmconditional to convertconditional
+        break
+Endif
+  
+  
+  
