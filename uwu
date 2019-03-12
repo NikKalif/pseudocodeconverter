@@ -1,1 +1,16 @@
+def lineprint():
+    linearray = []
+
+    file = input("What file would you like to convert? Include .py!")
+    openfile = open(file, "r")
+    readfile = openfile.readlines()
+
+    for line in readfile:
+        line = line.strip('\n')
+        print(line)
+        linearray.append(line)
+
+    print(linearray)
+
+lineprint()
 
