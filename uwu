@@ -1,16 +1,30 @@
+import os
+linearray = []
+
 def lineprint():
-    linearray = []
-
     file = input("What file would you like to convert? Include .py!")
-    openfile = open(file, "r")
-    readfile = openfile.readlines()
+    exists = os.path.isfile(file)
+    if exists:
+        openfile = open(file, "r")
+        readfile = openfile.readlines()
 
-    for line in readfile:
-        line = line.strip('\n')
-        print(line)
-        linearray.append(line)
+        for line in readfile:
+            line = line.strip('\n')
+            # print(line)
+            linearray.append(line)
 
-    print(linearray)
+        print(linearray)
+    else:
+        print("File invalid")
 
 lineprint()
 
+def convertelif():
+    elifcounter = 0
+    for i in linearray:
+        elifcounter += 1
+        if "elif" in i:
+            print("elif found!")
+            print("elif in line", elifcounter)
+
+convertelif()
