@@ -6,19 +6,18 @@ conditionalcounter = 0
 
 #OUTPUT("Found:", exclusive)
 
-def converter(pyarray): #Tom's god code
-    for pyline in pyarray:
-        pyline = str(pyline)
-        pyline = pyline.split()
-        for pycode, psecode in convertdict.items():
-            if pycode in pyline:
-                pyline = [x.replace(pycode, psecode) for x in pyline]
-        print(pyline)
+def indentchecker(line):
+    indentcount = 0
+    for letter in line:
+        if letter == "":
+            indentcount += 1
+    return indentcount
 
 def splitline():
     file = input("What file would you like to write into?")
     writefile = open(file, "w")
     for i in linearray:
+        print(i)
         writefile.write(i + "\n")
 
 def specialconverter(pyarray): #pyarray is linearray
@@ -44,11 +43,18 @@ def lineprint(): #prints out lines into array
             line = line.strip('\n')
             # -- IF CHECKER -- #
             if "if " in line: #THIS MAKES SURE THAT THE STATEMENT IS INDEED AN IF
+                indentcount = 0
+                for letter in line:
+                    if letter == "":
+                        indentcount += 1
                 thenchecker += 1
                 print("IF IS detected, then checker incremented")
                 temporaryline = line.replace("if", "IF")
                 linearray.append(temporaryline)
-                linearray.append("THEN")
+                space = ""
+                for i in range(indentcount):
+                    space += ""
+                linearray.append(space + "THEN")
             # -- PRINT CHECKER -- #
             elif "print" in line: #APPEND PRINT TO OUTPUT
                 print("found print")
@@ -57,7 +63,7 @@ def lineprint(): #prints out lines into array
                 linearray.append(temporaryline)
             elif "=" in line:
                 print("= found")
-                temporaryline = line.replace("=", "")
+                temporaryline = line.replace("=", "<--")
                 linearray.append(temporaryline)
             elif "for " in line:
                 print("FOR FOUND")
