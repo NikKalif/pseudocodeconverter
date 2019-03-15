@@ -1,51 +1,96 @@
 import os
 linearray = []
-pseudocommand = ['IF','THEN','ELSE','ENDCASE','CASE OF','OTHERWISE','ENDCASE','REPEAT','UNTIL','FOR','TO','NEXT''DECLARE','CONSTANT','PROCEDURE','ENDPROCEDURE','CALL','FUNCTION','ENDFUNCTION','OPENFILE','READFILE','CLOSEFILE','INPUT','OUTPUT','PRINT']
+pseudocommand = ['IF','THEN','ELSE','ENDCASE','CASE OF','OTHERWISE','ENDCASE','FOR','TO','NEXT','DECLARE','CONSTANT','PROCEDURE','ENDPROCEDURE','CALL','FUNCTION','ENDFUNCTION','OPENFILE','READFILE','CLOSEFILE','INPUT','OUTPUT','PRINT']
+pseudoexclusive=['ENDIF','CASE OF','OTHERWISE','ENDCASE','TO','NEXT','DECLARE','CONSTANT','PROCEDURE','ENDPROCEDURE','CALL','FUNCTION','ENDFUNCTION']
 conditionalcounter = 0
 
-def lineprint():
+#OUTPUT("Found:", exclusive)
+
+def converter(pyarray): #Tom's god code
+    for pyline in pyarray:
+        pyline = str(pyline)
+        pyline = pyline.split()
+        for pycode, psecode in convertdict.items():
+            if pycode in pyline:
+                pyline = [x.replace(pycode, psecode) for x in pyline]
+        print(pyline)
+
+def splitline():
+    file = input("What file would you like to write into?")
+    writefile = open(file, "w")
+    for i in linearray:
+        writefile.write(i + "\n")
+
+def specialconverter(pyarray): #pyarray is linearray
+    for pyline2 in pyarray:
+        wordreplace = pyline2.replace ('print', 'OUTPUT')
+        for i in pyline2:
+            thenchecker = 0
+            if "if" in i:
+                thenchecker = 1
+                print("thenchecker:", thenchecker)
+            #if there is a then, thenchecker = 1, start the new line with then.
+
+def lineprint(): #prints out lines into array
     file = input("What file would you like to convert? Include .py!")
     exists = os.path.isfile(file)
     if exists:
         openfile = open(file, "r")
         readfile = openfile.readlines()
-
+        linecounter = 0
         for line in readfile:
+            linecounter += 1
+            thenchecker = 0
             line = line.strip('\n')
-            # print(line)
-            linearray.append(line)
+            # -- IF CHECKER -- #
+            if "if " in line: #THIS MAKES SURE THAT THE STATEMENT IS INDEED AN IF
+                thenchecker += 1
+                print("IF IS detected, then checker incremented")
+                temporaryline = line.replace("if", "IF")
+                linearray.append(temporaryline)
+                linearray.append("THEN")
+            # -- PRINT CHECKER -- #
+            elif "print" in line: #APPEND PRINT TO OUTPUT
+                print("found print")
+                print(line)
+                temporaryline  = line.replace("print(", "OUTPUT ")
+                linearray.append(temporaryline)
+            elif "=" in line:
+                print("= found")
+                temporaryline = line.replace("=", "")
+                linearray.append(temporaryline)
+            elif "for " in line:
+                print("FOR FOUND")
+                temporaryline = line.replace("for", "FOR")
+                linearray.append(temporaryline)
+            elif "in range" in line:
+                temporaryline = line.replace("in range(", "TO")
+                linearray.append(temporaryline)
+            elif "return" in line:
+                temporaryline = line.replace("return", "RETURN")
+                linearray.append(temporaryline)
+            elif "def " in line:
+                temporaryline = line.replace("def", "PROCEDURE")
+                linearray.append(temporaryline)
+            else:
+                linearray.append(line)
 
-        print(linearray)
+        return linearray
     else:
         print("File invalid")
-    return linearray
 
+def indent(linearray):
+    for indarray in linearray:
+        numspace ='    '
+        indentation=0
+        n=4
+        while indarray[:n] == numspace and indarray[n] != '':
+            numspace += '    '
+            indentation+=1
+            n+=4
+        print("indentation found")
+        return(indentation)
+
+indent(linearray)
 lineprint()
-
-def convertelif():
-    elifcounter = 0
-    for i in linearray:
-        elifcounter += 1
-        if "elif" in i:
-            print("elif found!")
-            print("elif in line", elifcounter)
-            print("Conditional Change")
-
-convertelif()
-
-# def splitline():
-#     file = input("What file would you like to write into?")
-#     writefile = open(file, "w")
-#     for i in linearray:
-
-#
-# splitline()
-
-def recombine():
-    file = input("What file would you like to write it into?")
-    writefile = open(file, "w")
-    for i in linearray:
-        writefile.write(i)
-        writefile.write("\n")
-
-recombine()
+splitline()
